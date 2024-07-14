@@ -12,7 +12,7 @@ cmake --build .
 ./ExampleApp
 ```
 
-# test run
+# run tests
 ```
 cmake -DBUILD_TESTS=ON .. 
 cmake --build . 
