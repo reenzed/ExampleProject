@@ -1,6 +1,6 @@
-#ifndef MYMODULE_H
-#define MYMODULE_H
+#pragma once
 
-extern "C" void module_hello();
+#include "MyModuleLibExport.h"
 
-#endif // MYMODULE_H
+extern "C" MY_MODULE_LIB_API void module_hello();
+

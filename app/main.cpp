@@ -3,17 +3,38 @@
 #include "mylib.h"    // shared library
 #include "mymodule.h" // module library
 
-// Linux
-#include <dlfcn.h>
+#if defined(_WIN32) || defined(_WIN64)
+    #include <windows.h>
+#elif defined(__linux__)
+    #include <dlfcn.h>
+#endif
 
 typedef void (*f_hello)();
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    std::cout << "Static Library: " << Add(2, 2) << std::endl;
-    std::cout << "Shared Library: "; shared_hello();
+    std::cout << "Build type: ";
+    #ifndef NDEBUG
+    std::cout << "Debug" << std::endl;
+    #else
+    std::cout << "Release" << std::endl;
+    #endif
+    std::cout << "Hello, World! (app)" << std::endl;
+    static_hello();
+    shared_hello();
 
-    // Linux begin
+#if defined(_WIN32) || defined(_WIN64)
+    HMODULE handle = LoadLibrary(TEXT("MyModuleLib.dll"));
+    if (!handle) {
+        std::cerr << "Failed to load DLL" << std::endl;
+        return 1;
+    }
+    f_hello m_hello = (f_hello) GetProcAddress(handle, "module_hello");
+    if (!m_hello) {
+        std::cerr << "Failed to get function address" << std::endl;
+        FreeLibrary(handle);
+        return 1;
+    }
+#elif defined(__linux__)
     void* handle = dlopen("lib/MyModuleLib/libMyModuleLib.so", RTLD_LAZY);
     if (!handle) {
         std::cerr << "Cannot open library: " << dlerror() << std::endl;
@@ -27,12 +48,15 @@ int main() {
         dlclose(handle);
         return 1;
     }
-    std::cout << "Module Library: "; m_hello();
+#endif
+
+    m_hello();
+
+#if defined(_WIN32) || defined(_WIN64)
+    FreeLibrary(handle);
+#elif defined(__linux__)
     dlclose(handle);
-    // Linux end
-    
-    #ifndef NDEBUG
-    std::cout << "Debug" << std::endl;
-    #endif
+#endif
+
     return 0;
 }

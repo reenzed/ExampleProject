@@ -1,6 +1,5 @@
-#ifndef MYLIB_H
-#define MYLIB_H
+#pragma once
 
-void shared_hello();
+#include "MySharedLibExport.h"
 
-#endif // MYLIB_H
+MY_SHARED_LIB_API void shared_hello();

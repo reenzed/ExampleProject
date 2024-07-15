@@ -1,20 +1,29 @@
 # start
 ```
-rm -rf build 
+rm -rf build
 mkdir build
 cd build/
 ```
 
-# run app
+# build app
 ```
-cmake .. 
-cmake --build . 
+cmake ..
+cmake --build .
+```
+
+# run app on Linux
+```
 ./ExampleApp
 ```
 
-# run tests
+# run app on Windows
 ```
-cmake -DBUILD_TESTS=ON .. 
-cmake --build . 
+./Debug/ExampleApp.exe
+```
+
+# build and run tests
+```
+cmake -DBUILD_TESTS=ON ..
+cmake --build .
 ctest
 ```

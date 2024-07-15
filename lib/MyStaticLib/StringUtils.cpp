@@ -1,5 +1,6 @@
-#include "StringUtils.h"
 #include <algorithm>
+
+#include "StringUtils.h"
 
 std::string StringUtils::toUpperCase(const std::string& str) {
     std::string result = str;

@@ -1,5 +1,7 @@
 #include <iostream>
 
-extern "C" void module_hello() {
-    std::cout << "Hello from the module!" << std::endl;
+#include "mymodule.h"
+
+void module_hello() {
+    std::cout << "Hello, World! (MyModuleLib)" << std::endl;
 }
